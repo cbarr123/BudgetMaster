@@ -6,6 +6,11 @@ namespace BudgetMaster.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public ApplicationUser()
+        {
+
+        }
+
         [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }

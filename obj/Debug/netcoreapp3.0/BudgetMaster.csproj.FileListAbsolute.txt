@@ -131,8 +131,6 @@ C:\Users\cbarr\Workspace\BudgetMaster\bin\Debug\netcoreapp3.0\zh-Hant\Microsoft.
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\BudgetMaster.Views.pdb
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\BudgetMaster.dll
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\BudgetMaster.pdb
-C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\BudgetMaster.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\BudgetMaster.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Areas\Identity\Pages\Account\Register.cshtml.g.cs
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
