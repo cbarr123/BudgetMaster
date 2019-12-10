@@ -14,7 +14,12 @@ namespace BudgetMaster.Data
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Budget> Budgets { get; set; }
-
+        public DbSet<ActualExpense> ActualExpenses { get; set; }
+        public DbSet<ActualIncome> ActualIncomes { get; set; }
+        public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
+        public DbSet<IncomeCategory> IncomeCategories { get; set; }
+        public DbSet<ProjectedExpense> ProjectedExpenses { get; set; }
+        public DbSet<ProjectedIncome> ProjectedIncomes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
