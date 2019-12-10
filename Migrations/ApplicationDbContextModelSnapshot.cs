@@ -15,9 +15,83 @@ namespace BudgetMaster.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0")
+                .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("BudgetMaster.Models.ActualExpense", b =>
+                {
+                    b.Property<int>("ActualExpenseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("BudgetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExpenseCategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ActualExpenseId");
+
+                    b.ToTable("ActualExpenses");
+
+                    b.HasData(
+                        new
+                        {
+                            ActualExpenseId = 1,
+                            Amount = 1000.0,
+                            BudgetId = 1,
+                            ExpenseCategoryId = 1
+                        },
+                        new
+                        {
+                            ActualExpenseId = 2,
+                            Amount = 500.0,
+                            BudgetId = 1,
+                            ExpenseCategoryId = 2
+                        });
+                });
+
+            modelBuilder.Entity("BudgetMaster.Models.ActualIncome", b =>
+                {
+                    b.Property<int>("ActualIncomeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("BudgetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IncomeCategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ActualIncomeId");
+
+                    b.ToTable("ActualIncomes");
+
+                    b.HasData(
+                        new
+                        {
+                            ActualIncomeId = 1,
+                            Amount = 2000.0,
+                            BudgetId = 1,
+                            IncomeCategoryId = 1
+                        },
+                        new
+                        {
+                            ActualIncomeId = 2,
+                            Amount = 500.0,
+                            BudgetId = 1,
+                            IncomeCategoryId = 2
+                        });
+                });
 
             modelBuilder.Entity("BudgetMaster.Models.ApplicationUser", b =>
                 {
@@ -94,6 +168,209 @@ namespace BudgetMaster.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "00000000-ffff-ffff-ffff-ffffffffffff",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d4007095-617f-4549-aba5-9711919a76a7",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true,
+                            FirstName = "Admina",
+                            LastName = "Straytor",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEM3yzlbst26Vu26uBX3qUAXbGapilGP6A8PE9kXyHBdgCo0yUC3dsMONjdQyT0mRbQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
+                            StreetAddress = "123 Infinity Way",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com"
+                        },
+                        new
+                        {
+                            Id = "00000000-ffff-ffff-ffff-fffffffffffg",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "9e476ee9-e7e7-4397-bb8d-9e48375ad173",
+                            Email = "tom@cat.com",
+                            EmailConfirmed = true,
+                            FirstName = "Tom",
+                            LastName = "Cat",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "TOM@CAT.COM",
+                            NormalizedUserName = "TOM@CAT.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFBBlLSGI/Dbs3AcCQH7KmWoxgpZMvZ8o4fpfS8Ow6KHZcB1vdsRYkLzlh/DCmayyQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
+                            StreetAddress = "123 Feline Way",
+                            TwoFactorEnabled = false,
+                            UserName = "tom@cat.com"
+                        });
+                });
+
+            modelBuilder.Entity("BudgetMaster.Models.Budget", b =>
+                {
+                    b.Property<int>("BudgetId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CreatedMonth")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CreatedYear")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("BudgetId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Budgets");
+
+                    b.HasData(
+                        new
+                        {
+                            BudgetId = 1,
+                            CreatedMonth = 11,
+                            CreatedYear = 2019,
+                            UserId = "00000000-ffff-ffff-ffff-ffffffffffff"
+                        });
+                });
+
+            modelBuilder.Entity("BudgetMaster.Models.ExpenseCategory", b =>
+                {
+                    b.Property<int>("ExpenseCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ExpenseCategoryId");
+
+                    b.ToTable("ExpenseCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            ExpenseCategoryId = 1,
+                            Label = "House Payment"
+                        },
+                        new
+                        {
+                            ExpenseCategoryId = 2,
+                            Label = "Car Payment"
+                        });
+                });
+
+            modelBuilder.Entity("BudgetMaster.Models.IncomeCategory", b =>
+                {
+                    b.Property<int>("IncomeCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IncomeCategoryId");
+
+                    b.ToTable("IncomeCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            IncomeCategoryId = 1,
+                            Label = "Salary - 1"
+                        },
+                        new
+                        {
+                            IncomeCategoryId = 2,
+                            Label = "Salary - 2"
+                        });
+                });
+
+            modelBuilder.Entity("BudgetMaster.Models.ProjectedExpense", b =>
+                {
+                    b.Property<int>("ProjectedExpenseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("BudgetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExpenseCategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectedExpenseId");
+
+                    b.ToTable("ProjectedExpenses");
+
+                    b.HasData(
+                        new
+                        {
+                            ProjectedExpenseId = 1,
+                            Amount = 1000.0,
+                            BudgetId = 1,
+                            ExpenseCategoryId = 1
+                        },
+                        new
+                        {
+                            ProjectedExpenseId = 2,
+                            Amount = 500.0,
+                            BudgetId = 1,
+                            ExpenseCategoryId = 2
+                        });
+                });
+
+            modelBuilder.Entity("BudgetMaster.Models.ProjectedIncome", b =>
+                {
+                    b.Property<int>("ProjectedIncomeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("BudgetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IncomeCategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectedIncomeId");
+
+                    b.ToTable("ProjectedIncomes");
+
+                    b.HasData(
+                        new
+                        {
+                            ProjectedIncomeId = 1,
+                            Amount = 2000.0,
+                            BudgetId = 1,
+                            IncomeCategoryId = 1
+                        },
+                        new
+                        {
+                            ProjectedIncomeId = 2,
+                            Amount = 2000.0,
+                            BudgetId = 1,
+                            IncomeCategoryId = 2
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -229,6 +506,15 @@ namespace BudgetMaster.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("BudgetMaster.Models.Budget", b =>
+                {
+                    b.HasOne("BudgetMaster.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

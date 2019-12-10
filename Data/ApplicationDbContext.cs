@@ -128,6 +128,38 @@ namespace BudgetMaster.Data
                     Label = "Salary - 2"
                 }
             );
+            modelBuilder.Entity<ProjectedIncome>().HasData(
+            new ProjectedIncome()
+                {
+                    ProjectedIncomeId = 1,
+                    BudgetId = 1,
+                    IncomeCategoryId = 1,
+                    Amount = 2000.00
+                },
+                new ProjectedIncome()
+                {
+                    ProjectedIncomeId = 2,
+                    BudgetId = 1,
+                    IncomeCategoryId = 2,
+                    Amount = 2000.00
+                }
+            );
+            modelBuilder.Entity<ActualIncome>().HasData(
+            new ActualIncome()
+                {
+                    ActualIncomeId = 1,
+                    BudgetId = 1,
+                    IncomeCategoryId = 1,
+                    Amount = 2000.00
+                },
+                new ActualIncome()
+                {
+                    ActualIncomeId = 2,
+                    BudgetId = 1,
+                    IncomeCategoryId = 2,
+                    Amount = 500.00
+                }
+            );
 
         }
     }
