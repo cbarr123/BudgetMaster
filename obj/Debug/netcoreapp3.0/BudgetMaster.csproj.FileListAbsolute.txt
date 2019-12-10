@@ -180,3 +180,8 @@ C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\Expens
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\ExpenseCategories\Details.cshtml.g.cs
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\ExpenseCategories\Edit.cshtml.g.cs
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\ExpenseCategories\Index.cshtml.g.cs
+C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\Budgets\Create.cshtml.g.cs
+C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\Budgets\Delete.cshtml.g.cs
+C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\Budgets\Details.cshtml.g.cs
+C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\Budgets\Edit.cshtml.g.cs
+C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\Budgets\Index.cshtml.g.cs

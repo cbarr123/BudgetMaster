@@ -7,36 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BudgetMaster.Data;
 using BudgetMaster.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 
 namespace BudgetMaster.Controllers
 {
-    [Authorize]
-    public class ProjectedIncomesController : Controller
+    public class BudgetsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProjectedIncomesController(ApplicationDbContext context, UserManager<ApplicationUser>userManager)
+        public BudgetsController(ApplicationDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
-        // GET: ProjectedIncomes
+        // GET: Budgets
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            var userProjectedIncome = await _context.ProjectedIncomes
-                .Include(pi => pi.BudgetId)
-                    .ThenInclude(budget => budget.budgetId
-                    .Where(budget.UserId == user.Id)
-                    .ToListAsync();
-                return View(userProjectedIncome);
+            var applicationDbContext = _context.Budgets.Include(b => b.User);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: ProjectedIncomes/Details/5
+        // GET: Budgets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,39 +34,42 @@ namespace BudgetMaster.Controllers
                 return NotFound();
             }
 
-            var projectedIncome = await _context.ProjectedIncomes
-                .FirstOrDefaultAsync(m => m.ProjectedIncomeId == id);
-            if (projectedIncome == null)
+            var budget = await _context.Budgets
+                .Include(b => b.User)
+                .FirstOrDefaultAsync(m => m.BudgetId == id);
+            if (budget == null)
             {
                 return NotFound();
             }
 
-            return View(projectedIncome);
+            return View(budget);
         }
 
-        // GET: ProjectedIncomes/Create
+        // GET: Budgets/Create
         public IActionResult Create()
         {
+            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
             return View();
         }
 
-        // POST: ProjectedIncomes/Create
+        // POST: Budgets/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProjectedIncomeId,BudgetId,IncomeCategoryId,Amount")] ProjectedIncome projectedIncome)
+        public async Task<IActionResult> Create([Bind("BudgetId,UserId,CreatedMonth,CreatedYear")] Budget budget)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(projectedIncome);
+                _context.Add(budget);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(projectedIncome);
+            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", budget.UserId);
+            return View(budget);
         }
 
-        // GET: ProjectedIncomes/Edit/5
+        // GET: Budgets/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,22 +77,23 @@ namespace BudgetMaster.Controllers
                 return NotFound();
             }
 
-            var projectedIncome = await _context.ProjectedIncomes.FindAsync(id);
-            if (projectedIncome == null)
+            var budget = await _context.Budgets.FindAsync(id);
+            if (budget == null)
             {
                 return NotFound();
             }
-            return View(projectedIncome);
+            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", budget.UserId);
+            return View(budget);
         }
 
-        // POST: ProjectedIncomes/Edit/5
+        // POST: Budgets/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProjectedIncomeId,BudgetId,IncomeCategoryId,Amount")] ProjectedIncome projectedIncome)
+        public async Task<IActionResult> Edit(int id, [Bind("BudgetId,UserId,CreatedMonth,CreatedYear")] Budget budget)
         {
-            if (id != projectedIncome.ProjectedIncomeId)
+            if (id != budget.BudgetId)
             {
                 return NotFound();
             }
@@ -108,12 +102,12 @@ namespace BudgetMaster.Controllers
             {
                 try
                 {
-                    _context.Update(projectedIncome);
+                    _context.Update(budget);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjectedIncomeExists(projectedIncome.ProjectedIncomeId))
+                    if (!BudgetExists(budget.BudgetId))
                     {
                         return NotFound();
                     }
@@ -124,10 +118,11 @@ namespace BudgetMaster.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(projectedIncome);
+            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", budget.UserId);
+            return View(budget);
         }
 
-        // GET: ProjectedIncomes/Delete/5
+        // GET: Budgets/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,30 +130,31 @@ namespace BudgetMaster.Controllers
                 return NotFound();
             }
 
-            var projectedIncome = await _context.ProjectedIncomes
-                .FirstOrDefaultAsync(m => m.ProjectedIncomeId == id);
-            if (projectedIncome == null)
+            var budget = await _context.Budgets
+                .Include(b => b.User)
+                .FirstOrDefaultAsync(m => m.BudgetId == id);
+            if (budget == null)
             {
                 return NotFound();
             }
 
-            return View(projectedIncome);
+            return View(budget);
         }
 
-        // POST: ProjectedIncomes/Delete/5
+        // POST: Budgets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var projectedIncome = await _context.ProjectedIncomes.FindAsync(id);
-            _context.ProjectedIncomes.Remove(projectedIncome);
+            var budget = await _context.Budgets.FindAsync(id);
+            _context.Budgets.Remove(budget);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProjectedIncomeExists(int id)
+        private bool BudgetExists(int id)
         {
-            return _context.ProjectedIncomes.Any(e => e.ProjectedIncomeId == id);
+            return _context.Budgets.Any(e => e.BudgetId == id);
         }
     }
 }
