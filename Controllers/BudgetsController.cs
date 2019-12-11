@@ -7,23 +7,29 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BudgetMaster.Data;
 using BudgetMaster.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace BudgetMaster.Controllers
 {
     public class BudgetsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public BudgetsController(ApplicationDbContext context)
+        public BudgetsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
-
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
         // GET: Budgets
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Budgets.Include(b => b.User);
-            return View(await applicationDbContext.ToListAsync());
+            var user = await GetCurrentUserAsync();
+            var userBudgets = await _context.Budgets
+                .Where(b => b.UserId == user.Id)
+                .ToListAsync();
+            return View(userBudgets);
         }
 
         // GET: Budgets/Details/5
@@ -48,7 +54,7 @@ namespace BudgetMaster.Controllers
         // GET: Budgets/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
+            //ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
             return View();
         }
 
@@ -59,13 +65,18 @@ namespace BudgetMaster.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BudgetId,UserId,CreatedMonth,CreatedYear")] Budget budget)
         {
+            ModelState.Remove("User"); //Added 20191112 because of invalid ModelState
+            ModelState.Remove("UserId"); //Added 20191112 because of invalid ModelState
+
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                budget.UserId = user.Id;
                 _context.Add(budget);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", budget.UserId);
+            //ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", budget.UserId);
             return View(budget);
         }
 
@@ -97,7 +108,7 @@ namespace BudgetMaster.Controllers
             {
                 return NotFound();
             }
-
+            ModelState.Remove("User"); //Added 20191112 because of invalid ModelState
             if (ModelState.IsValid)
             {
                 try
