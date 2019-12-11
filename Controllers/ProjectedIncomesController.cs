@@ -23,13 +23,13 @@ namespace BudgetMaster.Controllers
             _context = context;
             _userManager = userManager;
         }
-
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
         // GET: ProjectedIncomes
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await GetCurrentUserAsync(); ;
             var userProjectedIncome = await _context.ProjectedIncomes
-                .Include(pi => pi.Budget)
+                .Include(b => b.Budget)
                 .Where(b => b.Budget.User == user)
                 .ToListAsync();
                 return View(userProjectedIncome);
@@ -68,6 +68,8 @@ namespace BudgetMaster.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                //need to bring in the correct budget i think
                 _context.Add(projectedIncome);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

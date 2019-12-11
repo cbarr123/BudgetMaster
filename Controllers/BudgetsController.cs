@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using BudgetMaster.Data;
 using BudgetMaster.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BudgetMaster.Controllers
 {
+    [Authorize]
     public class BudgetsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -54,7 +56,6 @@ namespace BudgetMaster.Controllers
         // GET: Budgets/Create
         public IActionResult Create()
         {
-            //ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
             return View();
         }
 
@@ -76,7 +77,6 @@ namespace BudgetMaster.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["UserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", budget.UserId);
             return View(budget);
         }
 
