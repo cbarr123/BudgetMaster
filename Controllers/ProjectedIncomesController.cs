@@ -29,10 +29,9 @@ namespace BudgetMaster.Controllers
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userProjectedIncome = await _context.ProjectedIncomes
-                .Include(pi => pi.BudgetId)
-                    .ThenInclude(budget => budget.budgetId
-                    .Where(budget.UserId == user.Id)
-                    .ToListAsync();
+                .Include(pi => pi.Budget)
+                .Where(b => b.Budget.User == user)
+                .ToListAsync();
                 return View(userProjectedIncome);
         }
 

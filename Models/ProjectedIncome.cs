@@ -16,5 +16,7 @@ namespace BudgetMaster.Models
         public int IncomeCategoryId { get; set; }
         [Required]
         public double Amount { get; set; }
+        public Budget Budget { get; set; }
+        public IncomeCategory IncomeCategory { get; set; }
     }
 }
