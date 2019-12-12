@@ -27,10 +27,11 @@ namespace BudgetMaster.Controllers
         // GET: ProjectedIncomes
         public async Task<IActionResult> Index()
         {
-            var user = await GetCurrentUserAsync(); ;
+            var user = await GetCurrentUserAsync(); 
             var userProjectedIncome = await _context.ProjectedIncomes
                 .Include(b => b.Budget)
                 .Where(b => b.Budget.User == user)
+                
                 .ToListAsync();
                 return View(userProjectedIncome);
         }
@@ -42,8 +43,10 @@ namespace BudgetMaster.Controllers
             {
                 return NotFound();
             }
-
+            var user = await GetCurrentUserAsync();
             var projectedIncome = await _context.ProjectedIncomes
+                .Include(b => b.Budget)
+                .Where(b => b.Budget.User == user)
                 .FirstOrDefaultAsync(m => m.ProjectedIncomeId == id);
             if (projectedIncome == null)
             {
@@ -69,7 +72,9 @@ namespace BudgetMaster.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
-                //need to bring in the correct budget i think
+                //TODO: need to associate this income budget with the current budget
+                //(like this sort of)var currentBudget = await _context.Budgets.FindAsync(Id);
+                
                 _context.Add(projectedIncome);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
