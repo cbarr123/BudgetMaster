@@ -42,8 +42,10 @@ namespace BudgetMaster.Controllers
             {
                 return NotFound();
             }
-
+            var user = await GetCurrentUserAsync();
             var projectedExpense = await _context.ProjectedExpenses
+                .Include(b => b.Budget)
+                .Where(b =>b.Budget.User == user)
                 .FirstOrDefaultAsync(m => m.ProjectedExpenseId == id);
             if (projectedExpense == null)
             {
@@ -68,6 +70,7 @@ namespace BudgetMaster.Controllers
         {
             if (ModelState.IsValid)
             {
+                //TODO need to associate this expense budget with a specific budget
                 _context.Add(projectedExpense);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

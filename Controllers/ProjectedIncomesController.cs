@@ -72,7 +72,7 @@ namespace BudgetMaster.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
-                //TODO: need to associate this income budget with the current budget
+                //TODO: need to associate this income budget with a specific budget
                 //(like this sort of)var currentBudget = await _context.Budgets.FindAsync(Id);
                 
                 _context.Add(projectedIncome);
