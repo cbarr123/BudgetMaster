@@ -7,22 +7,32 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BudgetMaster.Data;
 using BudgetMaster.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace BudgetMaster.Controllers
 {
+    [Authorize]
     public class ProjectedExpensesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProjectedExpensesController(ApplicationDbContext context)
+        public ProjectedExpensesController(ApplicationDbContext context, UserManager<ApplicationUser>userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
-
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
         // GET: ProjectedExpenses
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ProjectedExpenses.ToListAsync());
+            var user = await GetCurrentUserAsync();
+            var userProjectedExpense = await _context.ProjectedExpenses
+                .Include(b => b.Budget)
+                .Where(b => b.Budget.User == user)
+                .ToListAsync();
+                return View(userProjectedExpense);
         }
 
         // GET: ProjectedExpenses/Details/5
