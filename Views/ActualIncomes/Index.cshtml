@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BudgetMaster.Models.ProjectedIncome>
+﻿@model IEnumerable<BudgetMaster.Models.ActualIncome>
 
 @{
     ViewData["Title"] = "Index";
@@ -17,9 +17,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IncomeCategoryId)
-            </th>
-             <th>
-                @Html.DisplayNameFor(model => model.In)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Amount)
@@ -40,9 +37,9 @@
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ProjectedIncomeId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProjectedIncomeId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProjectedIncomeId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ActualIncomeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ActualIncomeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ActualIncomeId">Delete</a>
             </td>
         </tr>
 }
