@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.IncomeCategoryId)
             </th>
              <th>
-                @Html.DisplayNameFor(model => model.In)
+                @Html.DisplayNameFor(model => model.IncomeCategory.Label)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Amount)
@@ -35,6 +35,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IncomeCategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IncomeCategory.Label)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Amount)
