@@ -1,8 +1,60 @@
-﻿@{
+﻿@*@model IEnumerable<BudgetMaster.Models.ViewModels.AllBudgetsViewModel>*@ 
+
+@model BudgetMaster.Models.Budget
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-5">BudgetMaster</h1>
-    <p>This is the Home/Index.cshtml page.</p>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <table class="table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Budgeted Income</th>
+                    </tr>
+
+                    
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.ActualExpenses)</th>
+                        <th></th>
+                    </tr>
+                    
+
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Some Income</td>
+                        <td>$1000.00</td>
+                    </tr>
+                    <tr>
+                        <td>More Income</td>
+                        <td>$1200.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            Actual Income
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            Budgeted Expense
+        </div>
+        <div class="col">
+            Actual Expense
+        </div>
+    </div>
+</div>
+<div>
+    @foreach(var item in Model.ActualExpenses)
+    {
+        <p>@item.Amount</p>
+    }
 </div>

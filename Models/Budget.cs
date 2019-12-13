@@ -20,5 +20,15 @@ namespace BudgetMaster.Models
         public int CreatedYear { get; set; }
 
 
+        //Info for Projected Income
+        //public ICollection<ProjectedIncome> ProjectedIncomes { get; set; }
+
+        //Infor for Projected Expense
+        //public ICollection<ProjectedIncome> ProjectedExpenses { get; set; }
+        //Infor for Actual Income
+        //public ICollection<ActualIncome> ActualIncomes { get; set; }
+        //Info for Actual Expense
+        public ICollection<ActualExpense> ActualExpenses { get; set; }
+
     }
 }
