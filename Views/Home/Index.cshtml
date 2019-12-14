@@ -18,12 +18,14 @@
                         <th>Budgeted Income</th>
                     </tr>
 
-                    
+                    @foreach (var item in Model.ActualExpenses)
+                    {
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.ActualExpenses)</th>
-                        <th></th>
+                        <th>@item.Amount</th>
+                        <th>@item.Amount</th>
                     </tr>
-                    
+                    }
+
 
 
                 </thead>

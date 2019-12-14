@@ -21,12 +21,11 @@ namespace BudgetMaster.Models
 
 
         //Info for Projected Income
-        //public ICollection<ProjectedIncome> ProjectedIncomes { get; set; }
-
+        public ICollection<ProjectedIncome> ProjectedIncomes { get; set; }
         //Infor for Projected Expense
-        //public ICollection<ProjectedIncome> ProjectedExpenses { get; set; }
+        public ICollection<ProjectedExpense> ProjectedExpenses { get; set; }
         //Infor for Actual Income
-        //public ICollection<ActualIncome> ActualIncomes { get; set; }
+        public ICollection<ActualIncome> ActualIncomes { get; set; }
         //Info for Actual Expense
         public ICollection<ActualExpense> ActualExpenses { get; set; }
 

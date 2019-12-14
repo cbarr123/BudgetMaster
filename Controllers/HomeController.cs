@@ -9,9 +9,11 @@ using BudgetMaster.Models;
 using BudgetMaster.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BudgetMaster.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -30,12 +32,15 @@ namespace BudgetMaster.Controllers
         {
             var user = await GetCurrentUserAsync();
             var userBudget = await _context.Budgets
+                .Include(b => b.ProjectedIncomes)
+                .Include(b => b.ProjectedExpenses)
+                .Include(b => b.ActualIncomes)
                 .Include(b => b.ActualExpenses)
                 //.Where(b => b.UserId == user.Id && b.BudgetId == 1)
                 .FirstOrDefaultAsync(b => b.BudgetId == 2);
+                //TODO need to tie the budget into either what was selected or the default view value of the budget
             return View(userBudget);
         }
-
 
         public IActionResult Privacy()
         {
