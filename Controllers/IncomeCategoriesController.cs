@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BudgetMaster.Data;
 using BudgetMaster.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BudgetMaster.Controllers
 {
+    [Authorize]
     public class IncomeCategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
