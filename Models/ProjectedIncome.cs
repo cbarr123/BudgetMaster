@@ -18,6 +18,5 @@ namespace BudgetMaster.Models
         public double Amount { get; set; }
         public Budget Budget { get; set; }
         public IncomeCategory IncomeCategory { get; set; }
-        public ICollection<Budget> Budgets { get; set; }
     }
 }

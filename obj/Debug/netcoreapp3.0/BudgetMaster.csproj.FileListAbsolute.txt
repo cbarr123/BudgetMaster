@@ -27,7 +27,6 @@ C:\Users\cbarr\Workspace\BudgetMaster\bin\Debug\netcoreapp3.0\runtimes\win-x86\n
 C:\Users\cbarr\Workspace\BudgetMaster\bin\Debug\netcoreapp3.0\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\cbarr\Workspace\BudgetMaster\bin\Debug\netcoreapp3.0\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\cbarr\Workspace\BudgetMaster\bin\Debug\netcoreapp3.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\BudgetMaster.csprojAssemblyReference.cache
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\staticwebassets\BudgetMaster.StaticWebAssets.Manifest.cache
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\staticwebassets\BudgetMaster.StaticWebAssets.xml
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\BudgetMaster.RazorAssemblyInfo.cache
@@ -195,3 +194,4 @@ C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\Actual
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\ActualExpenses\Details.cshtml.g.cs
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\ActualExpenses\Edit.cshtml.g.cs
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\ActualExpenses\Index.cshtml.g.cs
+C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\BudgetMaster.csprojAssemblyReference.cache
