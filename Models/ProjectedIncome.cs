@@ -17,6 +17,9 @@ namespace BudgetMaster.Models
         [Required]
         public double Amount { get; set; }
         public Budget Budget { get; set; }
+       // public ICollection<ProjectedIncome> projectedIncomes { get; set; }
         public IncomeCategory IncomeCategory { get; set; }
+        public ICollection<IncomeCategory> IncomeCategories { get; set; }
+        public List<IncomeCategory> IncomeCategoriesList { get; set; }
     }
 }

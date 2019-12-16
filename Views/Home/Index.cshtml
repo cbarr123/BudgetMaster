@@ -12,52 +12,140 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col">
+                Budgeted Income
             <table class="table-bordered">
                 <thead class="thead-light">
                     <tr>
-                        <th>Budgeted Income</th>
-                    </tr>
-                    <tr>
-                        <th>Category</th>
+                        <th>ProjectedIncomeId</th>
+                        <th>IncomeCategoryLabel</th>
+                        <th>CategoryId</th>
                         <th>Amount</th>
                     </tr>
                 </thead>
                 <tbody>
-                @foreach (var item in Model.ActualExpenses)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.ActualExpenseId)</td>
-                        <td>@Html.DisplayFor(modelItem => item.ExpenseCategoriesList[0].Label)</td>
-                        <td>@Html.DisplayFor(modelItem => item.ExpenseCategoryId)</td>
-                        <td>@Html.DisplayFor(modelitem => item.Amount)</td>
-                    </tr>
-                }
+                    @foreach (var item in Model.ProjectedIncomes)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.ProjectedIncomeId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.IncomeCategoriesList[0].Label)</td>
+                            <td>@Html.DisplayFor(modelItem => item.IncomeCategoryId)</td>
+                            <td>@Html.DisplayFor(modelitem => item.Amount)</td>
+                        </tr>
+                    }
+                        <tr>
+                            <td></td>
+                            <td>Total Budgeted Income</td>
+                            <td></td>
+                            <td>Do Sum Here</td>
+                    
+                        </tr>
                 </tbody>
 
-
-
-                <tbody>
-                    <tr>
-                        <td>Some Income</td>
-                        <td>$1000.00</td>
-                    </tr>
-                    <tr>
-                        <td>More Income</td>
-                        <td>$1200.00</td>
-                    </tr>
-                </tbody>
             </table>
         </div>
         <div class="col">
             Actual Income
+            <table class="table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>ActualIncomeId</th>
+                        <th>IncomeCategoryLabel</th>
+                        <th>CategoryId</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ActualIncomes)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.ActualIncomeId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.IncomeCategoriesList[0].Label)</td>
+                            <td>@Html.DisplayFor(modelItem => item.IncomeCategoryId)</td>
+                            <td>@Html.DisplayFor(modelitem => item.Amount)</td>
+                        </tr>
+                    }
+
+                        <tr>
+                            <td></td>
+                            <td>Total Actual Income</td>
+                            <td></td>
+                            <td>Do Sum Here</td>
+                        </tr>
+                </tbody>
+
+            </table>
         </div>
     </div>
     <div class="row">
         <div class="col">
             Budgeted Expense
+            <table class="table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>ProjectedExpenseId</th>
+                        <th>ExpenseCategoryLabel</th>
+                        <th>CategoryId</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ProjectedExpenses)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.ProjectedExpenseId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ExpenseCategoriesList[0].Label)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ExpenseCategoryId)</td>
+                            <td>@Html.DisplayFor(modelitem => item.Amount)</td>
+                        </tr>
+                    }
+
+                        <tr>
+                            <td></td>
+                            <td>Total Budgeted Expenses</td>
+                            <td></td>
+                            <td>Do Sum Here</td>
+                        </tr>
+                </tbody>
+
+            </table>
         </div>
         <div class="col">
             Actual Expense
+            <table class="table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>ActualExpenseId</th>
+                        <th>ExpenseCategoryLabel</th>
+                        <th>CategoryId</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ActualExpenses)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.ActualExpenseId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ExpenseCategoriesList[0].Label)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ExpenseCategoryId)</td>
+                            <td>@Html.DisplayFor(modelitem => item.Amount)</td>
+                        </tr>
+                    }
+
+                        <tr>
+                            <td></td>
+                            <td>Total Actual Expenses</td>
+                            <td></td>
+                            <td>Do Sum Here</td>
+                        </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div>
+            temp debugging info<br />
+            @Html.DisplayFor(model => model.BudgetId) BudgetId<br />
+            @Html.DisplayFor(model => model.CreatedMonth) CreatedMonth<br />
+            @Html.DisplayFor(model => model.CreatedYear) CreatedYear<br />
         </div>
     </div>
 </div>
