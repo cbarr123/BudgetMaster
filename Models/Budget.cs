@@ -19,6 +19,8 @@ namespace BudgetMaster.Models
         [Required]
         public int CreatedYear { get; set; }
 
+        public ICollection<IncomeCategory>IncomeCategories { get; set; }
+        public ICollection<ExpenseCategory>ExpenseCategories { get; set; }
 
         //Info for Projected Income
         public ICollection<ProjectedIncome> ProjectedIncomes { get; set; }

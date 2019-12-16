@@ -31,14 +31,27 @@ namespace BudgetMaster.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await GetCurrentUserAsync();
+
+            //get the most current user and most recent budget
+            // 
+            var maxYear = _context.Budgets.Max(b => b.CreatedYear);
+            var maxMonth = _context.Budgets.Max(b => b.CreatedMonth);
+
+            //var userRecentBudget =await _context.Budgets
+                //.Where(b => b.CreatedYear == DateTime.Now.Year)
+              //  .Where(b => b.CreatedYear == maxYear && b.CreatedMonth == maxMonth)
+                //.FirstOrDefaultAsync();
+
+
             var userBudget = await _context.Budgets
                 .Include(b => b.ProjectedIncomes)
                 .Include(b => b.ProjectedExpenses)
                 .Include(b => b.ActualIncomes)
                 .Include(b => b.ActualExpenses)
                 //.Where(b => b.UserId == user.Id && b.BudgetId == 1)
-                .FirstOrDefaultAsync(b => b.BudgetId == 2);
-                //TODO need to tie the budget into either what was selected or the default view value of the budget
+                .Where(b => b.CreatedYear == maxYear && b.CreatedMonth == maxMonth)
+                .FirstOrDefaultAsync(b => b.UserId == user.Id);
+                //.FirstOrDefaultAsync(b => b.BudgetId == 2);
             return View(userBudget);
         }
 

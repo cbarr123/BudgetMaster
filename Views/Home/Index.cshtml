@@ -17,18 +17,25 @@
                     <tr>
                         <th>Budgeted Income</th>
                     </tr>
-
-                    @foreach (var item in Model.ActualExpenses)
-                    {
                     <tr>
-                        <th>@item.Amount</th>
-                        <th>@item.Amount</th>
+                        <th>Category</th>
+                        <th>Amount</th>
                     </tr>
-                    }
-
-
-
                 </thead>
+                <tbody>
+                @foreach (var item in Model.ActualExpenses)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.ActualExpenseId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ExpenseCategoriesList[0].Label)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ExpenseCategoryId)</td>
+                        <td>@Html.DisplayFor(modelitem => item.Amount)</td>
+                    </tr>
+                }
+                </tbody>
+
+
+
                 <tbody>
                     <tr>
                         <td>Some Income</td>
@@ -53,10 +60,4 @@
             Actual Expense
         </div>
     </div>
-</div>
-<div>
-    @foreach(var item in Model.ActualExpenses)
-    {
-        <p>@item.Amount</p>
-    }
 </div>
