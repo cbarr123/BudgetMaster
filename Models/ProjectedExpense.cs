@@ -18,7 +18,7 @@ namespace BudgetMaster.Models
         public double Amount { get; set; }
         public Budget Budget { get; set; }
         public ExpenseCategory ExpenseCategory { get; set; }
-        public ICollection<ExpenseCategory> ExpenseCategories { get; set; }
-        public List<ExpenseCategory> ExpenseCategoriesList { get; set; }
+        //public ICollection<ExpenseCategory> ExpenseCategories { get; set; }
+        //public List<ExpenseCategory> ExpenseCategoriesList { get; set; }
     }
 }

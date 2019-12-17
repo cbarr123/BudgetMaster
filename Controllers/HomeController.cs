@@ -10,6 +10,7 @@ using BudgetMaster.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using BudgetMaster.Models.ViewModels;
 
 namespace BudgetMaster.Controllers
 {
@@ -38,9 +39,9 @@ namespace BudgetMaster.Controllers
             var maxMonth = _context.Budgets.Max(b => b.CreatedMonth);
 
             //var userRecentBudget =await _context.Budgets
-                //.Where(b => b.CreatedYear == DateTime.Now.Year)
-              //  .Where(b => b.CreatedYear == maxYear && b.CreatedMonth == maxMonth)
-                //.FirstOrDefaultAsync();
+            //.Where(b => b.CreatedYear == DateTime.Now.Year)
+            //  .Where(b => b.CreatedYear == maxYear && b.CreatedMonth == maxMonth)
+            //.FirstOrDefaultAsync();
 
 
             var userBudget = await _context.Budgets
@@ -48,11 +49,19 @@ namespace BudgetMaster.Controllers
                 .Include(b => b.ProjectedExpenses)
                 .Include(b => b.ActualIncomes)
                 .Include(b => b.ActualExpenses)
-                //.Where(b => b.UserId == user.Id && b.BudgetId == 1)
                 .Where(b => b.CreatedYear == maxYear && b.CreatedMonth == maxMonth)
                 .FirstOrDefaultAsync(b => b.UserId == user.Id);
-                //.FirstOrDefaultAsync(b => b.BudgetId == 2);
-            return View(userBudget);
+
+            var incomeCats = await _context.IncomeCategories.ToListAsync();
+            var expenseCats = await _context.ExpenseCategories.ToListAsync();
+            var HomeView = new HomeViewModel
+            {
+                Budget = userBudget,
+                IncomeCategories = incomeCats,
+                ExpenseCategories = expenseCats
+            };
+
+            return View(HomeView);
         }
 
         public IActionResult Privacy()
