@@ -37,6 +37,10 @@ namespace BudgetMaster.Migrations
 
                     b.HasKey("ActualExpenseId");
 
+                    b.HasIndex("BudgetId");
+
+                    b.HasIndex("ExpenseCategoryId");
+
                     b.ToTable("ActualExpenses");
 
                     b.HasData(
@@ -73,6 +77,10 @@ namespace BudgetMaster.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ActualIncomeId");
+
+                    b.HasIndex("BudgetId");
+
+                    b.HasIndex("IncomeCategoryId");
 
                     b.ToTable("ActualIncomes");
 
@@ -174,7 +182,7 @@ namespace BudgetMaster.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c047945e-1f67-40af-9942-10cf3663c815",
+                            ConcurrencyStamp = "64a632c8-5a50-44b5-9782-e82c66904561",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "Admina",
@@ -182,7 +190,7 @@ namespace BudgetMaster.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDrLOKZDftVlX0HdgU4fyduhoc/HfQYRq6+BvdziWX8dDBSs+66G1KaiszNHcNbnOQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHQzq2OB58e82RO0aVKQEJvzUOtNzKZWRd/BAnBe5VCpxAfTwdjS6LskH1rwOz7UCw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             StreetAddress = "123 Infinity Way",
@@ -193,7 +201,7 @@ namespace BudgetMaster.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-fffffffffffg",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a58ef938-047c-4a7b-98be-1e75e1628981",
+                            ConcurrencyStamp = "86f87d53-5666-4f96-9037-d57628ae7f3f",
                             Email = "tom@cat.com",
                             EmailConfirmed = true,
                             FirstName = "Tom",
@@ -201,7 +209,7 @@ namespace BudgetMaster.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "TOM@CAT.COM",
                             NormalizedUserName = "TOM@CAT.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK8ST8OazWm9dGyi4wrqrOhQ1CAky9PEYLiRO5AFuQcc8Uiq9LtTEh4ffcMKZ71XKA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELuofd4cTlrHESsO1fdKrtUVmgbJcBxs2G/4uQYX328npUAJ0zSE1tLFZPXGG/t6+Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
                             StreetAddress = "123 Feline Way",
@@ -223,16 +231,11 @@ namespace BudgetMaster.Migrations
                     b.Property<int>("CreatedYear")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProjectedIncomeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("BudgetId");
-
-                    b.HasIndex("ProjectedIncomeId");
 
                     b.HasIndex("UserId");
 
@@ -255,11 +258,16 @@ namespace BudgetMaster.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("BudgetId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ExpenseCategoryId");
+
+                    b.HasIndex("BudgetId");
 
                     b.ToTable("ExpenseCategories");
 
@@ -283,11 +291,16 @@ namespace BudgetMaster.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("BudgetId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IncomeCategoryId");
+
+                    b.HasIndex("BudgetId");
 
                     b.ToTable("IncomeCategories");
 
@@ -521,12 +534,38 @@ namespace BudgetMaster.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("BudgetMaster.Models.ActualExpense", b =>
+                {
+                    b.HasOne("BudgetMaster.Models.Budget", "Budget")
+                        .WithMany("ActualExpenses")
+                        .HasForeignKey("BudgetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BudgetMaster.Models.ExpenseCategory", "ExpenseCategory")
+                        .WithMany()
+                        .HasForeignKey("ExpenseCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BudgetMaster.Models.ActualIncome", b =>
+                {
+                    b.HasOne("BudgetMaster.Models.Budget", "Budget")
+                        .WithMany("ActualIncomes")
+                        .HasForeignKey("BudgetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BudgetMaster.Models.IncomeCategory", "IncomeCategory")
+                        .WithMany()
+                        .HasForeignKey("IncomeCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BudgetMaster.Models.Budget", b =>
                 {
-                    b.HasOne("BudgetMaster.Models.ProjectedIncome", null)
-                        .WithMany("Budgets")
-                        .HasForeignKey("ProjectedIncomeId");
-
                     b.HasOne("BudgetMaster.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -534,10 +573,24 @@ namespace BudgetMaster.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("BudgetMaster.Models.ExpenseCategory", b =>
+                {
+                    b.HasOne("BudgetMaster.Models.Budget", null)
+                        .WithMany("ExpenseCategories")
+                        .HasForeignKey("BudgetId");
+                });
+
+            modelBuilder.Entity("BudgetMaster.Models.IncomeCategory", b =>
+                {
+                    b.HasOne("BudgetMaster.Models.Budget", null)
+                        .WithMany("IncomeCategories")
+                        .HasForeignKey("BudgetId");
+                });
+
             modelBuilder.Entity("BudgetMaster.Models.ProjectedExpense", b =>
                 {
                     b.HasOne("BudgetMaster.Models.Budget", "Budget")
-                        .WithMany()
+                        .WithMany("ProjectedExpenses")
                         .HasForeignKey("BudgetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -552,7 +605,7 @@ namespace BudgetMaster.Migrations
             modelBuilder.Entity("BudgetMaster.Models.ProjectedIncome", b =>
                 {
                     b.HasOne("BudgetMaster.Models.Budget", "Budget")
-                        .WithMany()
+                        .WithMany("ProjectedIncomes")
                         .HasForeignKey("BudgetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

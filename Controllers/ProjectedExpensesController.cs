@@ -27,10 +27,13 @@ namespace BudgetMaster.Controllers
         // GET: ProjectedExpenses
         public async Task<IActionResult> Index()
         {
+            var maxYear = _context.Budgets.Max(b => b.CreatedYear);
+            var maxMonth = _context.Budgets.Max(b => b.CreatedMonth);
             var user = await GetCurrentUserAsync();
             var userProjectedExpense = await _context.ProjectedExpenses
                 .Include(b => b.Budget)
                 .Where(b => b.Budget.User == user)
+                .Where(b => b.Budget.CreatedYear == maxYear && b.Budget.CreatedMonth == maxMonth)
                 .ToListAsync();
                 return View(userProjectedExpense);
         }

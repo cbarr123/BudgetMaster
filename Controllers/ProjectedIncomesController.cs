@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using BudgetMaster.Data;
+﻿using BudgetMaster.Data;
 using BudgetMaster.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BudgetMaster.Controllers
 {
@@ -24,16 +21,20 @@ namespace BudgetMaster.Controllers
             _userManager = userManager;
         }
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+        
         // GET: ProjectedIncomes
         public async Task<IActionResult> Index()
         {
+            var maxYear = _context.Budgets.Max(b => b.CreatedYear);
+            var maxMonth = _context.Budgets.Max(b => b.CreatedMonth);
             var user = await GetCurrentUserAsync(); 
             var userProjectedIncome = await _context.ProjectedIncomes
                 .Include(b => b.Budget)
                 .Where(b => b.Budget.User == user)
-                
+                .Where(b => b.Budget.CreatedYear == maxYear && b.Budget.CreatedMonth == maxMonth)
                 .ToListAsync();
                 return View(userProjectedIncome);
+            
         }
 
         // GET: ProjectedIncomes/Details/5
@@ -167,4 +168,6 @@ namespace BudgetMaster.Controllers
             return _context.ProjectedIncomes.Any(e => e.ProjectedIncomeId == id);
         }
     }
+
+    
 }
