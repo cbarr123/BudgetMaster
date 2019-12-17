@@ -36,7 +36,10 @@
                             <td></td>
                             <td>Total Budgeted Income</td>
                             <td></td>
-                            <td>Do Sum Here</td>
+                            <td>
+                               
+                                @String.Format("{0:c}", Model.ProjectedIncomes.Sum(x => x.Amount))
+                            </td>
                     
                         </tr>
                 </tbody>
@@ -69,7 +72,7 @@
                             <td></td>
                             <td>Total Actual Income</td>
                             <td></td>
-                            <td>Do Sum Here</td>
+                            <td>@String.Format("{0:c}", Model.ActualIncomes.Sum(x => x.Amount))</td>
                         </tr>
                 </tbody>
 
@@ -103,7 +106,7 @@
                             <td></td>
                             <td>Total Budgeted Expenses</td>
                             <td></td>
-                            <td>Do Sum Here</td>
+                            <td>@String.Format("{0:c}", Model.ProjectedExpenses.Sum(x => x.Amount))</td>
                         </tr>
                 </tbody>
 
@@ -135,7 +138,7 @@
                             <td></td>
                             <td>Total Actual Expenses</td>
                             <td></td>
-                            <td>Do Sum Here</td>
+                            <td>@String.Format("{0:c}", Model.ActualExpenses.Sum(x => x.Amount))</td>
                         </tr>
 
                 </tbody>

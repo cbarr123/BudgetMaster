@@ -34,6 +34,7 @@ namespace BudgetMaster.Controllers
                 .Where(b => b.Budget.CreatedYear == maxYear && b.Budget.CreatedMonth == maxMonth)
                 .ToListAsync();
                 return View(userProjectedIncome);
+            
         }
 
         // GET: ProjectedIncomes/Details/5
