@@ -32,6 +32,8 @@ namespace BudgetMaster.Controllers
             var BudgetKey = HttpContext.Session.GetInt32("budgetKey");
             var userActualExpense = await _context.ActualExpenses
                 .Include(b => b.Budget)
+                .ThenInclude(b => b.ActualExpenses)
+                .ThenInclude(b => b.ExpenseCategory)
                 .Where(b => b.Budget.User == user)
                 .Where(b => b.BudgetId == BudgetKey)
                 .ToListAsync();

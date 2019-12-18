@@ -32,6 +32,8 @@ namespace BudgetMaster.Controllers
             var BudgetKey = HttpContext.Session.GetInt32("budgetKey");
             var userProjectedIncome = await _context.ProjectedIncomes
                 .Include(b => b.Budget)
+                .ThenInclude(b => b.ProjectedIncomes)
+                .ThenInclude(b => b.IncomeCategory)
                 .Where(b => b.Budget.User == user)
                 .Where(b =>b.BudgetId == BudgetKey)
                 .ToListAsync();
@@ -76,7 +78,7 @@ namespace BudgetMaster.Controllers
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 var BudgetKey = HttpContext.Session.GetInt32("budgetKey");
-                BudgetKey = projectedIncome.BudgetId;
+                
                 
                 //TODO: need to associate this income budget with a specific budget
 

@@ -36,6 +36,8 @@ namespace BudgetMaster.Controllers
 
             //get the most current user and most recent budget fot the user
             var user = await GetCurrentUserAsync();
+            
+
             var userBudgetMaxYear = _context.Budgets
                 .Where(b => b.UserId == user.Id)
                 .Max(b => b.CreatedYear);

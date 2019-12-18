@@ -12,12 +12,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.BudgetId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IncomeCategoryId)
-            </th>
              <th>
                 @Html.DisplayNameFor(model => model.IncomeCategory.Label)
             </th>
@@ -29,12 +23,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BudgetId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IncomeCategoryId)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IncomeCategory.Label)
             </td>
@@ -50,10 +38,7 @@
 }
         <tr>
             <td></td>
-            <td></td>
-            <td></td>
-            <td>@String.Format("{0:c}", Model.Sum(s => s.Amount))
-            </td>
+            <td>@String.Format("{0:c}", Model.Sum(s => s.Amount))</td>
         </tr>
     </tbody>
 </table>
