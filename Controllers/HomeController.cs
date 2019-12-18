@@ -36,7 +36,19 @@ namespace BudgetMaster.Controllers
 
             //get the most current user and most recent budget fot the user
             var user = await GetCurrentUserAsync();
+
+            //if user does not have a budget
+            //direct them to create a budget page
+
+                var userBudgetPresent = _context.Budgets
+                .Where(b => b.UserId == user.Id)
+                .Max(b => b.BudgetId);
+
             
+           // if (userBudgetPresent == null)
+           // {
+            //    return NotFound();
+           // }
 
             var userBudgetMaxYear = _context.Budgets
                 .Where(b => b.UserId == user.Id)
