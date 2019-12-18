@@ -40,9 +40,9 @@ namespace BudgetMaster.Controllers
             //if user does not have a budget
             //direct them to create a budget page
 
-                var userBudgetPresent = _context.Budgets
-                .Where(b => b.UserId == user.Id)
-                .Max(b => b.BudgetId);
+               // var userBudgetPresent = _context.Budgets
+               // .Where(b => b.UserId == user.Id)
+                //.Max(b => b.BudgetId);
 
             
            // if (userBudgetPresent == null)
