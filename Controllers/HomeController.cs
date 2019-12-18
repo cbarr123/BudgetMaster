@@ -27,6 +27,7 @@ namespace BudgetMaster.Controllers
             _userManager = userManager;
             _logger = logger;
         }
+       
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         public async Task<IActionResult> Index()
@@ -54,6 +55,8 @@ namespace BudgetMaster.Controllers
 
             var incomeCats = await _context.IncomeCategories.ToListAsync();
             var expenseCats = await _context.ExpenseCategories.ToListAsync();
+       
+            var currentBudget = userBudget.BudgetId;
             var HomeView = new HomeViewModel
             {
                 Budget = userBudget,
@@ -63,7 +66,6 @@ namespace BudgetMaster.Controllers
 
             return View(HomeView);
         }
-
         public IActionResult Privacy()
         {
             return View();
