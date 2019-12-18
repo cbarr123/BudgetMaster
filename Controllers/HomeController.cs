@@ -36,9 +36,6 @@ namespace BudgetMaster.Controllers
 
             //get the most current user and most recent budget fot the user
             var user = await GetCurrentUserAsync();
-            //var maxYear = _context.Budgets.Max(b => b.CreatedYear);
-            //var maxMonth = _context.Budgets.Max(b => b.CreatedMonth);
-
             var userBudgetMaxYear = _context.Budgets
                 .Where(b => b.UserId == user.Id)
                 .Max(b => b.CreatedYear);
@@ -55,13 +52,8 @@ namespace BudgetMaster.Controllers
                 .Where(b => b.CreatedYear == userBudgetMaxYear && b.CreatedMonth == userBudgetMaxMonth)
                 .FirstOrDefaultAsync();
 
-            //ViewBag.BudgetId = userBudget.BudgetId;
-
             var incomeCats = await _context.IncomeCategories.ToListAsync();
             var expenseCats = await _context.ExpenseCategories.ToListAsync();
-       
-            //var currentBudget = userBudget.BudgetId;
-           
             
             HttpContext.Session.SetInt32("budgetKey", userBudget.BudgetId);
             var BudgetKey = HttpContext.Session.GetInt32("budgetKey");

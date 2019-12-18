@@ -24,7 +24,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Amount)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -53,7 +52,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>Sum here
+            <td>@String.Format("{0:c}", Model.Sum(s => s.Amount))
             </td>
         </tr>
     </tbody>

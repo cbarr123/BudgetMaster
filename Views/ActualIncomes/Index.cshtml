@@ -25,23 +25,31 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BudgetId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IncomeCategoryId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ActualIncomeId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ActualIncomeId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ActualIncomeId">Delete</a>
+                </td>
+            </tr>
+        }
         <tr>
+            <td></td>
+            <td></td>
             <td>
-                @Html.DisplayFor(modelItem => item.BudgetId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IncomeCategoryId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ActualIncomeId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ActualIncomeId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ActualIncomeId">Delete</a>
-            </td>
-        </tr>
-}
+                @String.Format("{0:c}", Model.Sum(s => s.Amount));
+        </td>
+    </tr>
     </tbody>
 </table>

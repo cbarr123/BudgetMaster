@@ -29,8 +29,8 @@
                         </tr>
                     }
                     <tr>
-                        <td>Total Budgeted Income</td>
-                        <td>@String.Format("{0:c}", Model.Budget.ProjectedIncomes.Sum(x => x.Amount))</td>
+                        <td><i>Total Budgeted Income</i></td>
+                        <td><i>@String.Format("{0:c}", Model.Budget.ProjectedIncomes.Sum(x => x.Amount))</i></td>
                     </tr>
                 </tbody>
             </table>
@@ -52,8 +52,8 @@
                         </tr>
                     }
                     <tr>
-                        <td>Total Actual Income</td>
-                        <td>@String.Format("{0:c}", Model.Budget.ActualIncomes.Sum(x => x.Amount))</td>
+                        <td><i>Total Actual Income</i></td>
+                        <td><i>@String.Format("{0:c}", Model.Budget.ActualIncomes.Sum(x => x.Amount))</i></td>
                     </tr>
                 </tbody>
             </table>
@@ -78,15 +78,15 @@
                         </tr>
                     }
                     <tr>
-                        <td>Total Budgeted Expenses</td>
-                        <td>@String.Format("{0:c}", Model.Budget.ProjectedExpenses.Sum(x => x.Amount))</td>
+                        <td><i>Total Budgeted Expenses</i></td>
+                        <td><i>@String.Format("{0:c}", Model.Budget.ProjectedExpenses.Sum(x => x.Amount))</i></td>
                     </tr>
                     @{ 
                         double pi = Model.Budget.ProjectedIncomes.Sum(x => x.Amount);
                         double pe = Model.Budget.ProjectedExpenses.Sum(x => x.Amount);
                     }
                     <tr>
-                        <th>Total </th>
+                        <th>Total</th>
                         <th>@String.Format("{0:c}", pi - pe)</th>
                     </tr>
                 </tbody>
@@ -109,8 +109,8 @@
                         </tr>
                     }
                     <tr>
-                        <td>Total Actual Expenses</td>
-                        <td>@String.Format("{0:c}", Model.Budget.ActualExpenses.Sum(x => x.Amount))</td>
+                        <td><i>Total Actual Expenses</i></td>
+                        <td><i>@String.Format("{0:c}", Model.Budget.ActualExpenses.Sum(x => x.Amount))</i></td>
                     </tr>
                     @{
                         double ai = Model.Budget.ActualIncomes.Sum(x => x.Amount);
@@ -127,11 +127,11 @@
     <div class="row"><tr><td></td></tr></div>
     <div class="row">
         <div>
-            temp debugging info<br />
-            @Html.DisplayFor(model => model.Budget.User.Email) User<br />
-            @Html.DisplayFor(model => model.Budget.BudgetId) BudgetId<br />
-            @Html.DisplayFor(model => model.Budget.CreatedMonth) CreatedMonth<br />
-            @Html.DisplayFor(model => model.Budget.CreatedYear) CreatedYear<br />
+            Temporary Debugging Information<br />
+            @Html.DisplayFor(model => model.Budget.User.Email) -- User<br />
+            @Html.DisplayFor(model => model.Budget.BudgetId) -- BudgetId<br />
+            @Html.DisplayFor(model => model.Budget.CreatedMonth) -- CreatedMonth<br />
+            @Html.DisplayFor(model => model.Budget.CreatedYear) -- CreatedYear<br />
         </div>
 
     </div>
