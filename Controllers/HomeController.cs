@@ -40,15 +40,15 @@ namespace BudgetMaster.Controllers
             //if user does not have a budget
             //direct them to create a budget page
 
-               // var userBudgetPresent = _context.Budgets
-               // .Where(b => b.UserId == user.Id)
-                //.Max(b => b.BudgetId);
-
+            var userBudgetPresent = _context.Budgets
+            .Where(b => b.UserId == user.Id)
+            .FirstOrDefault();
             
-           // if (userBudgetPresent == null)
-           // {
-            //    return NotFound();
-           // }
+            if (userBudgetPresent == null)
+            {
+                return RedirectToAction("Create", "Budgets");
+            }
+            else { 
 
             var userBudgetMaxYear = _context.Budgets
                 .Where(b => b.UserId == user.Id)
@@ -69,6 +69,7 @@ namespace BudgetMaster.Controllers
             var incomeCats = await _context.IncomeCategories.ToListAsync();
             var expenseCats = await _context.ExpenseCategories.ToListAsync();
             
+            // Setting a budgetId to Session Storage
             HttpContext.Session.SetInt32("budgetKey", userBudget.BudgetId);
             var BudgetKey = HttpContext.Session.GetInt32("budgetKey");
 
@@ -80,6 +81,7 @@ namespace BudgetMaster.Controllers
             };
 
             return View(HomeView);
+            }
         }
         public IActionResult Privacy()
         {

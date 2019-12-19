@@ -109,6 +109,7 @@ namespace BudgetMaster.Controllers
                 return NotFound();
             }
             ModelState.Remove("User"); //Added 20191112 because of invalid ModelState
+            //ModelState.Remove("UserId"); //Added 20191112 because of invalid ModelState
             if (ModelState.IsValid)
             {
                 try

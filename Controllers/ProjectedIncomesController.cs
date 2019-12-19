@@ -26,8 +26,6 @@ namespace BudgetMaster.Controllers
         // GET: ProjectedIncomes
         public async Task<IActionResult> Index()
         {
-            //var maxYear = _context.Budgets.Max(b => b.CreatedYear);
-            //var maxMonth = _context.Budgets.Max(b => b.CreatedMonth);
             var user = await GetCurrentUserAsync(); 
             var BudgetKey = HttpContext.Session.GetInt32("budgetKey");
             var userProjectedIncome = await _context.ProjectedIncomes
