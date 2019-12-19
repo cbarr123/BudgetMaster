@@ -1,5 +1,6 @@
 ﻿using BudgetMaster.Data;
 using BudgetMaster.Models;
+using BudgetMaster.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -60,9 +61,13 @@ namespace BudgetMaster.Controllers
         }
 
         // GET: ProjectedIncomes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var viewModel = new ProjectedIncomeCreateViewModel()
+            {
+                IncomeCats = await _context.IncomeCategories.OrderBy(ic => ic.Label).ToListAsync()
+            };
+            return View(viewModel);
         }
 
         // POST: ProjectedIncomes/Create
@@ -76,10 +81,10 @@ namespace BudgetMaster.Controllers
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 var BudgetKey = HttpContext.Session.GetInt32("budgetKey");
-                
-                
-                //TODO: need to associate this income budget with a specific budget
 
+
+                //TODO: need to associate this income budget with a specific budget
+                //projectedIncome.BudgetId = BudgetKey;\
                 _context.Add(projectedIncome);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

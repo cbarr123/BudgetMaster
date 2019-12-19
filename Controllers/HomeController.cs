@@ -53,9 +53,11 @@ namespace BudgetMaster.Controllers
             var userBudgetMaxYear = _context.Budgets
                 .Where(b => b.UserId == user.Id)
                 .Max(b => b.CreatedYear);
-            var userBudgetMaxMonth = _context.Budgets
-                .Where(b => b.UserId == user.Id)
-                .Max(b => b.CreatedMonth);
+
+            var userBudgetMaxMonthWithYear = _context.Budgets
+                    .Where(b => b.UserId == user.Id)
+                    .Where(b => b.CreatedYear == userBudgetMaxYear)
+                    .Max(b => b.CreatedMonth);
 
             var userBudget = await _context.Budgets
                 .Include(b => b.ProjectedIncomes)
@@ -63,7 +65,8 @@ namespace BudgetMaster.Controllers
                 .Include(b => b.ActualIncomes)
                 .Include(b => b.ActualExpenses)
                 .Where(b => b.UserId == user.Id)
-                .Where(b => b.CreatedYear == userBudgetMaxYear && b.CreatedMonth == userBudgetMaxMonth)
+                .Where(b => b.CreatedYear == userBudgetMaxYear)
+                .Where(b => b.CreatedMonth == userBudgetMaxMonthWithYear)
                 .FirstOrDefaultAsync();
 
             var incomeCats = await _context.IncomeCategories.ToListAsync();
