@@ -1,6 +1,7 @@
 ﻿using BudgetMaster.Data;
 using BudgetMaster.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,16 +26,17 @@ namespace BudgetMaster.Controllers
         // GET: ProjectedIncomes
         public async Task<IActionResult> Index()
         {
-            var maxYear = _context.Budgets.Max(b => b.CreatedYear);
-            var maxMonth = _context.Budgets.Max(b => b.CreatedMonth);
             var user = await GetCurrentUserAsync(); 
+            var BudgetKey = HttpContext.Session.GetInt32("budgetKey");
             var userProjectedIncome = await _context.ProjectedIncomes
                 .Include(b => b.Budget)
+                .ThenInclude(b => b.ProjectedIncomes)
+                .ThenInclude(b => b.IncomeCategory)
                 .Where(b => b.Budget.User == user)
-                .Where(b => b.Budget.CreatedYear == maxYear && b.Budget.CreatedMonth == maxMonth)
+                .Where(b =>b.BudgetId == BudgetKey)
                 .ToListAsync();
                 return View(userProjectedIncome);
-            
+
         }
 
         // GET: ProjectedIncomes/Details/5
@@ -73,9 +75,11 @@ namespace BudgetMaster.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
-                //TODO: need to associate this income budget with a specific budget
-                //(like this sort of)var currentBudget = await _context.Budgets.FindAsync(Id);
+                var BudgetKey = HttpContext.Session.GetInt32("budgetKey");
                 
+                
+                //TODO: need to associate this income budget with a specific budget
+
                 _context.Add(projectedIncome);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

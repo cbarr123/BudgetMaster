@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using BudgetMaster.Models.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace BudgetMaster.Controllers
 {
@@ -27,43 +28,61 @@ namespace BudgetMaster.Controllers
             _userManager = userManager;
             _logger = logger;
         }
+       
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         public async Task<IActionResult> Index()
         {
+
+            //get the most current user and most recent budget fot the user
             var user = await GetCurrentUserAsync();
 
-            //get the most current user and most recent budget
-            // 
-            var maxYear = _context.Budgets.Max(b => b.CreatedYear);
-            var maxMonth = _context.Budgets.Max(b => b.CreatedMonth);
+            //if user does not have a budget
+            //direct them to create a budget page
 
-            //var userRecentBudget =await _context.Budgets
-            //.Where(b => b.CreatedYear == DateTime.Now.Year)
-            //  .Where(b => b.CreatedYear == maxYear && b.CreatedMonth == maxMonth)
-            //.FirstOrDefaultAsync();
+            var userBudgetPresent = _context.Budgets
+            .Where(b => b.UserId == user.Id)
+            .FirstOrDefault();
+            
+            if (userBudgetPresent == null)
+            {
+                return RedirectToAction("Create", "Budgets");
+            }
+            else { 
 
+            var userBudgetMaxYear = _context.Budgets
+                .Where(b => b.UserId == user.Id)
+                .Max(b => b.CreatedYear);
+            var userBudgetMaxMonth = _context.Budgets
+                .Where(b => b.UserId == user.Id)
+                .Max(b => b.CreatedMonth);
 
             var userBudget = await _context.Budgets
                 .Include(b => b.ProjectedIncomes)
                 .Include(b => b.ProjectedExpenses)
                 .Include(b => b.ActualIncomes)
                 .Include(b => b.ActualExpenses)
-                .Where(b => b.CreatedYear == maxYear && b.CreatedMonth == maxMonth)
-                .FirstOrDefaultAsync(b => b.UserId == user.Id);
+                .Where(b => b.UserId == user.Id)
+                .Where(b => b.CreatedYear == userBudgetMaxYear && b.CreatedMonth == userBudgetMaxMonth)
+                .FirstOrDefaultAsync();
 
             var incomeCats = await _context.IncomeCategories.ToListAsync();
             var expenseCats = await _context.ExpenseCategories.ToListAsync();
+            
+            // Setting a budgetId to Session Storage
+            HttpContext.Session.SetInt32("budgetKey", userBudget.BudgetId);
+            var BudgetKey = HttpContext.Session.GetInt32("budgetKey");
+
             var HomeView = new HomeViewModel
             {
                 Budget = userBudget,
-                IncomeCategories = incomeCats,
-                ExpenseCategories = expenseCats
+                //IncomeCategories = incomeCats,
+                //ExpenseCategories = expenseCats
             };
 
             return View(HomeView);
+            }
         }
-
         public IActionResult Privacy()
         {
             return View();

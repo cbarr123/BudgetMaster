@@ -9,6 +9,7 @@ using BudgetMaster.Data;
 using BudgetMaster.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace BudgetMaster.Controllers
 {
@@ -27,13 +28,14 @@ namespace BudgetMaster.Controllers
         // GET: ProjectedExpenses
         public async Task<IActionResult> Index()
         {
-            var maxYear = _context.Budgets.Max(b => b.CreatedYear);
-            var maxMonth = _context.Budgets.Max(b => b.CreatedMonth);
             var user = await GetCurrentUserAsync();
+            var BudgetKey = HttpContext.Session.GetInt32("budgetKey");
             var userProjectedExpense = await _context.ProjectedExpenses
                 .Include(b => b.Budget)
+                .ThenInclude(b => b.ProjectedExpenses)
+                .ThenInclude(b => b.ExpenseCategory)
                 .Where(b => b.Budget.User == user)
-                .Where(b => b.Budget.CreatedYear == maxYear && b.Budget.CreatedMonth == maxMonth)
+                .Where(b => b.BudgetId == BudgetKey)
                 .ToListAsync();
                 return View(userProjectedExpense);
         }
