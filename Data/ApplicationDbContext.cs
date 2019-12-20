@@ -25,6 +25,19 @@ namespace BudgetMaster.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            //modelBuilder.Entity<ActualExpense>()
+            //    .Property(p => p.Amount)
+            //    .HasColumnType("decimal(18,2");
+            //modelBuilder.Entity<ActualIncome>()
+            //    .Property(p => p.Amount)
+            //    .HasColumnType("decimal(18,2");
+            //modelBuilder.Entity<ProjectedExpense>()
+            //    .Property(p => p.Amount)
+            //    .HasColumnType("decimal(18,2");
+            //modelBuilder.Entity<ProjectedIncome>()
+            //    .Property(p => p.Amount)
+            //    .HasColumnType("decimal(18,2");
+
             ApplicationUser user = new ApplicationUser
             {
                 FirstName = "Admina",
@@ -89,14 +102,14 @@ namespace BudgetMaster.Data
                     ProjectedExpenseId = 1,
                     BudgetId = 1,
                     ExpenseCategoryId = 1,
-                    Amount = 1000.00
+                    Amount = 1000
                 },
             new ProjectedExpense()
                 {
                     ProjectedExpenseId = 2,
                     BudgetId = 1,
                     ExpenseCategoryId = 2,
-                    Amount = 500.00
+                    Amount = 500
                 }
             );
             modelBuilder.Entity<ActualExpense>().HasData(
@@ -105,14 +118,14 @@ namespace BudgetMaster.Data
                     ActualExpenseId = 1,
                     BudgetId = 1,
                     ExpenseCategoryId = 1,
-                    Amount = 1000.00
+                    Amount = 1000
                 },
                 new ActualExpense()
                 {
                     ActualExpenseId = 2,
                     BudgetId = 1,
                     ExpenseCategoryId = 2,
-                    Amount = 500.00
+                    Amount = 500
                 }
             );
 
@@ -134,14 +147,14 @@ namespace BudgetMaster.Data
                     ProjectedIncomeId = 1,
                     BudgetId = 1,
                     IncomeCategoryId = 1,
-                    Amount = 2000.00
+                    Amount = 2000
                 },
                 new ProjectedIncome()
                 {
                     ProjectedIncomeId = 2,
                     BudgetId = 1,
                     IncomeCategoryId = 2,
-                    Amount = 2000.00
+                    Amount = 2000
                 }
             );
             modelBuilder.Entity<ActualIncome>().HasData(
@@ -150,14 +163,14 @@ namespace BudgetMaster.Data
                     ActualIncomeId = 1,
                     BudgetId = 1,
                     IncomeCategoryId = 1,
-                    Amount = 2000.00
+                    Amount = 2000
                 },
                 new ActualIncome()
                 {
                     ActualIncomeId = 2,
                     BudgetId = 1,
                     IncomeCategoryId = 2,
-                    Amount = 500.00
+                    Amount = 500
                 }
             );
 

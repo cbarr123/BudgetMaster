@@ -82,8 +82,8 @@
                         <td><i>@String.Format("{0:c}", Model.Budget.ProjectedExpenses.Sum(x => x.Amount))</i></td>
                     </tr>
                     @{ 
-                        double pi = Model.Budget.ProjectedIncomes.Sum(x => x.Amount);
-                        double pe = Model.Budget.ProjectedExpenses.Sum(x => x.Amount);
+                        decimal pi = Model.Budget.ProjectedIncomes.Sum(x => x.Amount);
+                        decimal pe = Model.Budget.ProjectedExpenses.Sum(x => x.Amount);
                     }
                     <tr>
                         <th>Total</th>
@@ -113,8 +113,8 @@
                         <td><i>@String.Format("{0:c}", Model.Budget.ActualExpenses.Sum(x => x.Amount))</i></td>
                     </tr>
                     @{
-                        double ai = Model.Budget.ActualIncomes.Sum(x => x.Amount);
-                        double ae = Model.Budget.ActualExpenses.Sum(x => x.Amount);
+                        decimal ai = Model.Budget.ActualIncomes.Sum(x => x.Amount);
+                        decimal ae = Model.Budget.ActualExpenses.Sum(x => x.Amount);
                     }
                     <tr>
                         <th>Total </th>
