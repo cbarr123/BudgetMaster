@@ -100,7 +100,8 @@ namespace BudgetMaster.Controllers
                 return NotFound();
             }
 
-            var projectedIncome = await _context.ProjectedIncomes.FindAsync(id);
+            var projectedIncome = await _context.ProjectedIncomes
+                .FindAsync(id);
             if (projectedIncome == null)
             {
                 return NotFound();

@@ -14,9 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ActualIncomeId" />
             <div class="form-group">
-                <label asp-for="IncomeCategoryId" class="control-label"></label>
-                <input asp-for="IncomeCategoryId" class="form-control" />
-                <span asp-validation-for="IncomeCategoryId" class="text-danger"></span>
+                <input type="hidden" asp-for="IncomeCategoryId" />
             </div>
             <div class="form-group">
                 <label asp-for="Amount" class="control-label"></label>
