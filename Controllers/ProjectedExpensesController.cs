@@ -51,6 +51,8 @@ namespace BudgetMaster.Controllers
             var user = await GetCurrentUserAsync();
             var projectedExpense = await _context.ProjectedExpenses
                 .Include(b => b.Budget)
+                .ThenInclude(b => b.ProjectedExpenses)
+                .ThenInclude(b => b.ExpenseCategory)
                 .Where(b =>b.Budget.User == user)
                 .FirstOrDefaultAsync(m => m.ProjectedExpenseId == id);
             if (projectedExpense == null)
@@ -123,6 +125,9 @@ namespace BudgetMaster.Controllers
             {
                 try
                 {
+                    var user = await _userManager.GetUserAsync(HttpContext.User);
+                    int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
+                    projectedExpense.BudgetId = BudgetKey;
                     _context.Update(projectedExpense);
                     await _context.SaveChangesAsync();
                 }
@@ -151,6 +156,7 @@ namespace BudgetMaster.Controllers
             }
 
             var projectedExpense = await _context.ProjectedExpenses
+                .Include(b => b.ExpenseCategory)
                 .FirstOrDefaultAsync(m => m.ProjectedExpenseId == id);
             if (projectedExpense == null)
             {

@@ -12,16 +12,10 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BudgetId)
+            @Html.DisplayNameFor(model => model.ExpenseCategory.Label)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BudgetId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ExpenseCategoryId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ExpenseCategoryId)
+            @Html.DisplayFor(model => model.ExpenseCategory.Label)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Amount)

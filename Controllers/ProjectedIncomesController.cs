@@ -50,6 +50,8 @@ namespace BudgetMaster.Controllers
             var user = await GetCurrentUserAsync();
             var projectedIncome = await _context.ProjectedIncomes
                 .Include(b => b.Budget)
+                .ThenInclude(b => b.ProjectedIncomes)
+                .ThenInclude(b => b.IncomeCategory)
                 .Where(b => b.Budget.User == user)
                 .FirstOrDefaultAsync(m => m.ProjectedIncomeId == id);
             if (projectedIncome == null)
@@ -81,8 +83,6 @@ namespace BudgetMaster.Controllers
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
-
-
                 //TODO: need to associate this income budget with a specific budget
                 projectedIncome.BudgetId = BudgetKey;
                 _context.Add(projectedIncome);
@@ -124,6 +124,9 @@ namespace BudgetMaster.Controllers
             {
                 try
                 {
+                    var user = await _userManager.GetUserAsync(HttpContext.User);
+                    int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
+                    projectedIncome.BudgetId = BudgetKey;
                     _context.Update(projectedIncome);
                     await _context.SaveChangesAsync();
                 }
@@ -152,6 +155,7 @@ namespace BudgetMaster.Controllers
             }
 
             var projectedIncome = await _context.ProjectedIncomes
+                .Include(b => b.IncomeCategory)
                 .FirstOrDefaultAsync(m => m.ProjectedIncomeId == id);
             if (projectedIncome == null)
             {

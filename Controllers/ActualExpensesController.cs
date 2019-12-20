@@ -10,6 +10,7 @@ using BudgetMaster.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using BudgetMaster.Models.ViewModels;
 
 namespace BudgetMaster.Controllers
 {
@@ -51,6 +52,8 @@ namespace BudgetMaster.Controllers
             var user = await GetCurrentUserAsync();
             var actualExpense = await _context.ActualExpenses
                 .Include(b => b.Budget)
+                .ThenInclude(b => b.ActualExpenses)
+                .ThenInclude(b => b.ExpenseCategory)
                 .Where(b => b.Budget.User == user)
                 .FirstOrDefaultAsync(m => m.ActualExpenseId == id);
             if (actualExpense == null)
@@ -62,9 +65,13 @@ namespace BudgetMaster.Controllers
         }
 
         // GET: ActualExpenses/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var viewModel = new ActualExpenseCreateViewModel()
+            {
+                ExpenseCats = await _context.ExpenseCategories.OrderBy(ic => ic.Label).ToListAsync()
+            };
+            return View(viewModel);
         }
 
         // POST: ActualExpenses/Create
@@ -76,7 +83,10 @@ namespace BudgetMaster.Controllers
         {
             if (ModelState.IsValid)
             {
-               //TODO need to associate this actual expense with the appropriate budget
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
+                //TODO need to associate this actual expense with the appropriate budget
+                actualExpense.BudgetId = BudgetKey;
                 _context.Add(actualExpense);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -116,6 +126,9 @@ namespace BudgetMaster.Controllers
             {
                 try
                 {
+                    var user = await _userManager.GetUserAsync(HttpContext.User);
+                    int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
+                    actualExpense.BudgetId = BudgetKey;
                     _context.Update(actualExpense);
                     await _context.SaveChangesAsync();
                 }
@@ -144,6 +157,7 @@ namespace BudgetMaster.Controllers
             }
 
             var actualExpense = await _context.ActualExpenses
+                .Include(b => b.ExpenseCategory)
                 .FirstOrDefaultAsync(m => m.ActualExpenseId == id);
             if (actualExpense == null)
             {
