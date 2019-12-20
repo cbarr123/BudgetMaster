@@ -20,7 +20,7 @@ namespace BudgetMaster.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ActualIncomesController(ApplicationDbContext context, UserManager<ApplicationUser>userManager)
+        public ActualIncomesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
 
         {
             _context = context;
@@ -40,7 +40,7 @@ namespace BudgetMaster.Controllers
                 .Where(b => b.BudgetId == BudgetKey)
                 .ToListAsync();
 
-                return View(userActualIncome);
+            return View(userActualIncome);
         }
 
         // GET: ActualIncomes/Details/5
@@ -87,7 +87,6 @@ namespace BudgetMaster.Controllers
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
-                //TODO need to associate this actual income with the appropriate budget
                 actualIncome.BudgetId = BudgetKey;
                 _context.Add(actualIncome);
                 await _context.SaveChangesAsync();

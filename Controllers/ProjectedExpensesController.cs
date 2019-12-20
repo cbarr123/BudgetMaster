@@ -20,7 +20,7 @@ namespace BudgetMaster.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProjectedExpensesController(ApplicationDbContext context, UserManager<ApplicationUser>userManager)
+        public ProjectedExpensesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -38,7 +38,7 @@ namespace BudgetMaster.Controllers
                 .Where(b => b.Budget.User == user)
                 .Where(b => b.BudgetId == BudgetKey)
                 .ToListAsync();
-                return View(userProjectedExpense);
+            return View(userProjectedExpense);
         }
 
         // GET: ProjectedExpenses/Details/5
@@ -53,7 +53,7 @@ namespace BudgetMaster.Controllers
                 .Include(b => b.Budget)
                 .ThenInclude(b => b.ProjectedExpenses)
                 .ThenInclude(b => b.ExpenseCategory)
-                .Where(b =>b.Budget.User == user)
+                .Where(b => b.Budget.User == user)
                 .FirstOrDefaultAsync(m => m.ProjectedExpenseId == id);
             if (projectedExpense == null)
             {
@@ -84,7 +84,6 @@ namespace BudgetMaster.Controllers
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
-                //TODO need to associate this expense budget with a specific budget
                 projectedExpense.BudgetId = BudgetKey;
                 _context.Add(projectedExpense);
                 await _context.SaveChangesAsync();

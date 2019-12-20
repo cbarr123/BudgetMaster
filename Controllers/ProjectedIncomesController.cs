@@ -83,7 +83,6 @@ namespace BudgetMaster.Controllers
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
-                //TODO: need to associate this income budget with a specific budget
                 projectedIncome.BudgetId = BudgetKey;
                 _context.Add(projectedIncome);
                 await _context.SaveChangesAsync();
