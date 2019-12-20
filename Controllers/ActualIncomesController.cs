@@ -10,6 +10,7 @@ using BudgetMaster.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using BudgetMaster.Models.ViewModels;
 
 namespace BudgetMaster.Controllers
 {
@@ -19,7 +20,7 @@ namespace BudgetMaster.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ActualIncomesController(ApplicationDbContext context, UserManager<ApplicationUser>userManager)
+        public ActualIncomesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
 
         {
             _context = context;
@@ -39,7 +40,7 @@ namespace BudgetMaster.Controllers
                 .Where(b => b.BudgetId == BudgetKey)
                 .ToListAsync();
 
-                return View(userActualIncome);
+            return View(userActualIncome);
         }
 
         // GET: ActualIncomes/Details/5
@@ -53,6 +54,8 @@ namespace BudgetMaster.Controllers
             var user = await GetCurrentUserAsync();
             var actualIncome = await _context.ActualIncomes
                 .Include(b => b.Budget)
+                .ThenInclude(b => b.ActualIncomes)
+                .ThenInclude(b => b.IncomeCategory)
                 .Where(b => b.Budget.User == user)
                 .FirstOrDefaultAsync(m => m.ActualIncomeId == id);
             if (actualIncome == null)
@@ -64,9 +67,13 @@ namespace BudgetMaster.Controllers
         }
 
         // GET: ActualIncomes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var viewModel = new ActualIncomeCreateViewModel()
+            {
+                IncomeCats = await _context.IncomeCategories.OrderBy(ic => ic.Label).ToListAsync()
+            };
+            return View(viewModel);
         }
 
         // POST: ActualIncomes/Create
@@ -78,7 +85,9 @@ namespace BudgetMaster.Controllers
         {
             if (ModelState.IsValid)
             {
-                //TODO need to associate this actual income with the appropriate budget
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
+                actualIncome.BudgetId = BudgetKey;
                 _context.Add(actualIncome);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -118,6 +127,9 @@ namespace BudgetMaster.Controllers
             {
                 try
                 {
+                    var user = await _userManager.GetUserAsync(HttpContext.User);
+                    int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
+                    actualIncome.BudgetId = BudgetKey;
                     _context.Update(actualIncome);
                     await _context.SaveChangesAsync();
                 }
@@ -146,6 +158,7 @@ namespace BudgetMaster.Controllers
             }
 
             var actualIncome = await _context.ActualIncomes
+                .Include(b => b.IncomeCategory)
                 .FirstOrDefaultAsync(m => m.ActualIncomeId == id);
             if (actualIncome == null)
             {

@@ -10,6 +10,7 @@ using BudgetMaster.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using BudgetMaster.Models.ViewModels;
 
 namespace BudgetMaster.Controllers
 {
@@ -19,7 +20,7 @@ namespace BudgetMaster.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProjectedExpensesController(ApplicationDbContext context, UserManager<ApplicationUser>userManager)
+        public ProjectedExpensesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -37,7 +38,7 @@ namespace BudgetMaster.Controllers
                 .Where(b => b.Budget.User == user)
                 .Where(b => b.BudgetId == BudgetKey)
                 .ToListAsync();
-                return View(userProjectedExpense);
+            return View(userProjectedExpense);
         }
 
         // GET: ProjectedExpenses/Details/5
@@ -50,7 +51,9 @@ namespace BudgetMaster.Controllers
             var user = await GetCurrentUserAsync();
             var projectedExpense = await _context.ProjectedExpenses
                 .Include(b => b.Budget)
-                .Where(b =>b.Budget.User == user)
+                .ThenInclude(b => b.ProjectedExpenses)
+                .ThenInclude(b => b.ExpenseCategory)
+                .Where(b => b.Budget.User == user)
                 .FirstOrDefaultAsync(m => m.ProjectedExpenseId == id);
             if (projectedExpense == null)
             {
@@ -61,9 +64,13 @@ namespace BudgetMaster.Controllers
         }
 
         // GET: ProjectedExpenses/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var viewModel = new ProjectedExpenseCreateViewModel()
+            {
+                ExpenseCats = await _context.ExpenseCategories.OrderBy(ic => ic.Label).ToListAsync()
+            };
+            return View(viewModel);
         }
 
         // POST: ProjectedExpenses/Create
@@ -75,7 +82,9 @@ namespace BudgetMaster.Controllers
         {
             if (ModelState.IsValid)
             {
-                //TODO need to associate this expense budget with a specific budget
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
+                projectedExpense.BudgetId = BudgetKey;
                 _context.Add(projectedExpense);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -115,6 +124,9 @@ namespace BudgetMaster.Controllers
             {
                 try
                 {
+                    var user = await _userManager.GetUserAsync(HttpContext.User);
+                    int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
+                    projectedExpense.BudgetId = BudgetKey;
                     _context.Update(projectedExpense);
                     await _context.SaveChangesAsync();
                 }
@@ -143,6 +155,7 @@ namespace BudgetMaster.Controllers
             }
 
             var projectedExpense = await _context.ProjectedExpenses
+                .Include(b => b.ExpenseCategory)
                 .FirstOrDefaultAsync(m => m.ProjectedExpenseId == id);
             if (projectedExpense == null)
             {

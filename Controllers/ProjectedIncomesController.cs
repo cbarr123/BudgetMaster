@@ -1,5 +1,6 @@
 ﻿using BudgetMaster.Data;
 using BudgetMaster.Models;
+using BudgetMaster.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -49,6 +50,8 @@ namespace BudgetMaster.Controllers
             var user = await GetCurrentUserAsync();
             var projectedIncome = await _context.ProjectedIncomes
                 .Include(b => b.Budget)
+                .ThenInclude(b => b.ProjectedIncomes)
+                .ThenInclude(b => b.IncomeCategory)
                 .Where(b => b.Budget.User == user)
                 .FirstOrDefaultAsync(m => m.ProjectedIncomeId == id);
             if (projectedIncome == null)
@@ -60,9 +63,13 @@ namespace BudgetMaster.Controllers
         }
 
         // GET: ProjectedIncomes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var viewModel = new ProjectedIncomeCreateViewModel()
+            {
+                IncomeCats = await _context.IncomeCategories.OrderBy(ic => ic.Label).ToListAsync()
+            };
+            return View(viewModel);
         }
 
         // POST: ProjectedIncomes/Create
@@ -75,11 +82,8 @@ namespace BudgetMaster.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
-                var BudgetKey = HttpContext.Session.GetInt32("budgetKey");
-                
-                
-                //TODO: need to associate this income budget with a specific budget
-
+                int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
+                projectedIncome.BudgetId = BudgetKey;
                 _context.Add(projectedIncome);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -95,7 +99,8 @@ namespace BudgetMaster.Controllers
                 return NotFound();
             }
 
-            var projectedIncome = await _context.ProjectedIncomes.FindAsync(id);
+            var projectedIncome = await _context.ProjectedIncomes
+                .FindAsync(id);
             if (projectedIncome == null)
             {
                 return NotFound();
@@ -119,6 +124,9 @@ namespace BudgetMaster.Controllers
             {
                 try
                 {
+                    var user = await _userManager.GetUserAsync(HttpContext.User);
+                    int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
+                    projectedIncome.BudgetId = BudgetKey;
                     _context.Update(projectedIncome);
                     await _context.SaveChangesAsync();
                 }
@@ -147,6 +155,7 @@ namespace BudgetMaster.Controllers
             }
 
             var projectedIncome = await _context.ProjectedIncomes
+                .Include(b => b.IncomeCategory)
                 .FirstOrDefaultAsync(m => m.ProjectedIncomeId == id);
             if (projectedIncome == null)
             {

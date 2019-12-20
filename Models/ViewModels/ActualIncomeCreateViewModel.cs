@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace BudgetMaster.Models.ViewModels
 {
-    public class ProjectedIncomeCreateViewModel
+    public class ActualIncomeCreateViewModel
     {
-        public ProjectedIncome ProjectedIncome { get; set; }
+        public ActualIncome ActualIncome { get; set; }
         public List<IncomeCategory> IncomeCats { get; set; } = new List<IncomeCategory>();
         public List<SelectListItem> IncomeCategoryOptions
-        {   
+        {
             get
             {
                 if (IncomeCats == null) return null;

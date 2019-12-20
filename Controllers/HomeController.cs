@@ -28,7 +28,7 @@ namespace BudgetMaster.Controllers
             _userManager = userManager;
             _logger = logger;
         }
-       
+
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         public async Task<IActionResult> Index()
@@ -43,44 +43,46 @@ namespace BudgetMaster.Controllers
             var userBudgetPresent = _context.Budgets
             .Where(b => b.UserId == user.Id)
             .FirstOrDefault();
-            
+
             if (userBudgetPresent == null)
             {
                 return RedirectToAction("Create", "Budgets");
             }
-            else { 
-
-            var userBudgetMaxYear = _context.Budgets
-                .Where(b => b.UserId == user.Id)
-                .Max(b => b.CreatedYear);
-            var userBudgetMaxMonth = _context.Budgets
-                .Where(b => b.UserId == user.Id)
-                .Max(b => b.CreatedMonth);
-
-            var userBudget = await _context.Budgets
-                .Include(b => b.ProjectedIncomes)
-                .Include(b => b.ProjectedExpenses)
-                .Include(b => b.ActualIncomes)
-                .Include(b => b.ActualExpenses)
-                .Where(b => b.UserId == user.Id)
-                .Where(b => b.CreatedYear == userBudgetMaxYear && b.CreatedMonth == userBudgetMaxMonth)
-                .FirstOrDefaultAsync();
-
-            var incomeCats = await _context.IncomeCategories.ToListAsync();
-            var expenseCats = await _context.ExpenseCategories.ToListAsync();
-            
-            // Setting a budgetId to Session Storage
-            HttpContext.Session.SetInt32("budgetKey", userBudget.BudgetId);
-            var BudgetKey = HttpContext.Session.GetInt32("budgetKey");
-
-            var HomeView = new HomeViewModel
+            else
             {
-                Budget = userBudget,
-                //IncomeCategories = incomeCats,
-                //ExpenseCategories = expenseCats
-            };
 
-            return View(HomeView);
+                var userBudgetMaxYear = _context.Budgets
+                    .Where(b => b.UserId == user.Id)
+                    .Max(b => b.CreatedYear);
+
+                var userBudgetMaxMonthWithYear = _context.Budgets
+                        .Where(b => b.UserId == user.Id)
+                        .Where(b => b.CreatedYear == userBudgetMaxYear)
+                        .Max(b => b.CreatedMonth);
+
+                var userBudget = await _context.Budgets
+                    .Include(b => b.ProjectedIncomes)
+                    .Include(b => b.ProjectedExpenses)
+                    .Include(b => b.ActualIncomes)
+                    .Include(b => b.ActualExpenses)
+                    .Where(b => b.UserId == user.Id)
+                    .Where(b => b.CreatedYear == userBudgetMaxYear)
+                    .Where(b => b.CreatedMonth == userBudgetMaxMonthWithYear)
+                    .FirstOrDefaultAsync();
+
+                var incomeCats = await _context.IncomeCategories.ToListAsync();
+                var expenseCats = await _context.ExpenseCategories.ToListAsync();
+
+                // Setting a budgetId to Session Storage
+                HttpContext.Session.SetInt32("budgetKey", userBudget.BudgetId);
+                var BudgetKey = HttpContext.Session.GetInt32("budgetKey");
+
+                var HomeView = new HomeViewModel
+                {
+                    Budget = userBudget,
+                };
+
+                return View(HomeView);
             }
         }
         public IActionResult Privacy()

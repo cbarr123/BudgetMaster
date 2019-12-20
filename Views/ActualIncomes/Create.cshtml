@@ -1,4 +1,4 @@
-﻿@model BudgetMaster.Models.ActualIncome
+﻿@model BudgetMaster.Models.ViewModels.ActualIncomeCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -6,26 +6,23 @@
 
 <h1>Create</h1>
 
-<h4>ActualIncome</h4>
+<h4>Actual Income</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
             <div class="form-group">
-                <label asp-for="BudgetId" class="control-label"></label>
-                <input asp-for="BudgetId" class="form-control" />
-                <span asp-validation-for="BudgetId" class="text-danger"></span>
+                <label asp-for="ActualIncome.IncomeCategoryId" class="control-label"></label>
+                <select required asp-for="ActualIncome.IncomeCategoryId" class="form-control" asp-items="@Model.IncomeCategoryOptions"></select>
+                <span asp-validation-for="ActualIncome.IncomeCategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IncomeCategoryId" class="control-label"></label>
-                <input asp-for="IncomeCategoryId" class="form-control" />
-                <span asp-validation-for="IncomeCategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
+                <label asp-for="ActualIncome.Amount" class="control-label"></label>
+                <input asp-for="ActualIncome.Amount" class="form-control" />
+                <span asp-validation-for="ActualIncome.Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

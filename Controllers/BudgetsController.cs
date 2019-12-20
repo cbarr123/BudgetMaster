@@ -109,11 +109,13 @@ namespace BudgetMaster.Controllers
                 return NotFound();
             }
             ModelState.Remove("User"); //Added 20191112 because of invalid ModelState
-            //ModelState.Remove("UserId"); //Added 20191112 because of invalid ModelState
+            ModelState.Remove("UserId"); //Added 20191112 because of invalid ModelState
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var user = await _userManager.GetUserAsync(HttpContext.User);
+                    budget.UserId = user.Id;
                     _context.Update(budget);
                     await _context.SaveChangesAsync();
                 }
