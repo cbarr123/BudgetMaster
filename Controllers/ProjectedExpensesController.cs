@@ -10,6 +10,7 @@ using BudgetMaster.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using BudgetMaster.Models.ViewModels;
 
 namespace BudgetMaster.Controllers
 {
@@ -61,9 +62,13 @@ namespace BudgetMaster.Controllers
         }
 
         // GET: ProjectedExpenses/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var viewModel = new ProjectedExpenseCreateViewModel()
+            {
+                ExpenseCats = await _context.ExpenseCategories.OrderBy(ic => ic.Label).ToListAsync()
+            };
+            return View(viewModel);
         }
 
         // POST: ProjectedExpenses/Create
@@ -75,7 +80,10 @@ namespace BudgetMaster.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
                 //TODO need to associate this expense budget with a specific budget
+                projectedExpense.BudgetId = BudgetKey;
                 _context.Add(projectedExpense);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

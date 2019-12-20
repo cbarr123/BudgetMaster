@@ -10,6 +10,7 @@ using BudgetMaster.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using BudgetMaster.Models.ViewModels;
 
 namespace BudgetMaster.Controllers
 {
@@ -64,9 +65,13 @@ namespace BudgetMaster.Controllers
         }
 
         // GET: ActualIncomes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var viewModel = new ActualIncomeCreateViewModel()
+            {
+                IncomeCats = await _context.IncomeCategories.OrderBy(ic => ic.Label).ToListAsync()
+            };
+            return View(viewModel);
         }
 
         // POST: ActualIncomes/Create
@@ -78,7 +83,10 @@ namespace BudgetMaster.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                int BudgetKey = HttpContext.Session.GetInt32("budgetKey") ?? default(int);
                 //TODO need to associate this actual income with the appropriate budget
+                actualIncome.BudgetId = BudgetKey;
                 _context.Add(actualIncome);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
