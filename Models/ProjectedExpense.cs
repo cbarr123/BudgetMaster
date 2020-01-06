@@ -15,7 +15,7 @@ namespace BudgetMaster.Models
         [Required]
         public int ExpenseCategoryId { get; set; }
         [Required]
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
         public Budget Budget { get; set; }
         public ExpenseCategory ExpenseCategory { get; set; }
         //public ICollection<ExpenseCategory> ExpenseCategories { get; set; }
