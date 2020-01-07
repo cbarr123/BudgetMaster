@@ -16,7 +16,7 @@ namespace BudgetMaster.Models.ViewModels
         //Infor for Actual Income
         public ICollection<ActualIncome> ActualIncomes { get; set; }
         //Info for Actual Expense
-        //public ICollection<ActualExpense> ActualExpenses { get; set; }
+        public ICollection<ActualExpense> ActualExpenses { get; set; }
         public Budget Budget { get; set; }
         public int BudgetId { get; set; }
 

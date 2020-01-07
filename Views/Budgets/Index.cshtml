@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Budgets</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,10 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedMonth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedYear)
+                Month / Year
             </th>
             <th></th>
         </tr>
@@ -25,13 +22,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CreatedMonth)
+                @Html.DisplayFor(modelItem => item.CreatedMonth) / @Html.DisplayFor(modelItem => item.CreatedYear)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CreatedYear)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BudgetId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.BudgetId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.BudgetId">Delete</a>
             </td>
