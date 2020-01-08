@@ -1,10 +1,13 @@
 ﻿@model IEnumerable<BudgetMaster.Models.Budget>
 
+
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Budgets</h1>
+<div class="text-left">
+    <img src="images/BMlogoSM.png" />
+</div>
+<h4>Budgets</h4>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -16,19 +19,21 @@
                 Month / Year
             </th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedMonth) / @Html.DisplayFor(modelItem => item.CreatedYear)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.BudgetId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BudgetId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedMonth) / @Html.DisplayFor(modelItem => item.CreatedYear)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.BudgetId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.BudgetId">Delete</a> |
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

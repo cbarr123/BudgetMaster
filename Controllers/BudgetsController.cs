@@ -80,6 +80,14 @@ namespace BudgetMaster.Controllers
             return View(budget);
         }
 
+        // adding 20200107 to copy a budget and associated budget income and expenses
+        // GET: Budgets/Copy
+        public IActionResult Copy()
+        {
+            return View();
+        }
+
+
         // GET: Budgets/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

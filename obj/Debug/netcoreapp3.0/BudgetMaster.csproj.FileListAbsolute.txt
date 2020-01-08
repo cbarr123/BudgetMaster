@@ -195,3 +195,4 @@ C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\Actual
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\ActualExpenses\Edit.cshtml.g.cs
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\ActualExpenses\Index.cshtml.g.cs
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\BudgetMaster.csprojAssemblyReference.cache
+C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\Budgets\Copy.cshtml.g.cs

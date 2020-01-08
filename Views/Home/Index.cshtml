@@ -9,10 +9,10 @@
 
     <div class="text-left">
         @*<h1 class="display-5">BudgetMaster</h1>*@
-        <img src="images/logo.png" />
+        <img src="images/BMlogo.png" />
     </div>
     <div class="text-left">
-        Budget for @Html.DisplayFor(model => model.Budget.CreatedMonth) / @Html.DisplayFor(model => model.Budget.CreatedYear)<br />
+        Budget for @System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.Budget.CreatedMonth) @Html.DisplayFor(model => model.Budget.CreatedYear)
     </div>
 <div class="container-fluid">
     <div class="row">
