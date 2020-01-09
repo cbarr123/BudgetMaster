@@ -157,8 +157,6 @@ C:\Users\cbarr\Workspace\BudgetMaster\bin\Debug\netcoreapp3.0\System.Collections
 C:\Users\cbarr\Workspace\BudgetMaster\bin\Debug\netcoreapp3.0\System.ComponentModel.Annotations.dll
 C:\Users\cbarr\Workspace\BudgetMaster\bin\Debug\netcoreapp3.0\System.Diagnostics.DiagnosticSource.dll
 C:\Users\cbarr\Workspace\BudgetMaster\bin\Debug\netcoreapp3.0\System.Runtime.CompilerServices.Unsafe.dll
-C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\BudgetMaster.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\BudgetMaster.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\ProjectedIncomes\Create.cshtml.g.cs
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\ProjectedIncomes\Delete.cshtml.g.cs
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\ProjectedIncomes\Details.cshtml.g.cs
@@ -196,3 +194,5 @@ C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\Actual
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\ActualExpenses\Index.cshtml.g.cs
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\BudgetMaster.csprojAssemblyReference.cache
 C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\Razor\Views\Budgets\Copy.cshtml.g.cs
+C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\BudgetMaster.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\cbarr\Workspace\BudgetMaster\obj\Debug\netcoreapp3.0\BudgetMaster.MvcApplicationPartsAssemblyInfo.cache
