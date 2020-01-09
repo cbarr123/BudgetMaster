@@ -85,14 +85,23 @@
                         <td><i>Total Budgeted Expenses</i></td>
                         <td><i>@String.Format("{0:c}", Model.Budget.ProjectedExpenses.Sum(x => x.Amount))</i></td>
                     </tr>
-                    @{ 
+                    @{
                         decimal pi = Model.Budget.ProjectedIncomes.Sum(x => x.Amount);
                         decimal pe = Model.Budget.ProjectedExpenses.Sum(x => x.Amount);
                     }
-                    <tr>
-                        <th>Total</th>
-                        <th>@String.Format("{0:c}", pi - pe)</th>
-                    </tr>
+                <tr>
+                    <th>Total Budgeted</th>
+                    @{
+                        if (pi >= pe)
+                        {
+                            <th><span style="color:green">@String.Format("{0:c}", pi - pe)</span></th>
+                        }
+                        else
+                        {
+                            <th><span style="color:red">@String.Format("{0:c}", pi - pe)</span></th>
+                        }
+                    }
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -120,15 +129,28 @@
                         decimal ai = Model.Budget.ActualIncomes.Sum(x => x.Amount);
                         decimal ae = Model.Budget.ActualExpenses.Sum(x => x.Amount);
                     }
-                    <tr>
-                        <th>Total </th>
-                        <th>@String.Format("{0:c}", ai - ae)</th>
-                    </tr>
+                <tr>
+                    <th>Total Actual</th>
+                    @{
+                        if (ai >= ae)
+                        {
+                            <th><span style="color:green">@String.Format("{0:c}", ai - ae)</span></th>
+                        }
+                        else
+                        {
+                            <th><span style="color:red">@String.Format("{0:c}", ai - ae)</span></th>
+                        }
+                    }
+
+
+
+                </tr>
                 </tbody>
             </table>
         </div>
+        <div class="w-100"><p> </p></div>
     </div>
-    <div class="row"><tr><td></td></tr></div>
+    <div class="row"></div>
     <div class="row">
         <div>
             

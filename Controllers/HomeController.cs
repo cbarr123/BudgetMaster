@@ -34,7 +34,7 @@ namespace BudgetMaster.Controllers
         public async Task<IActionResult> Index()
         {
 
-            //get the most current user and most recent budget fot the user
+            //get the most current user and most recent budget for the user
             var user = await GetCurrentUserAsync();
 
             //if user does not have a budget
