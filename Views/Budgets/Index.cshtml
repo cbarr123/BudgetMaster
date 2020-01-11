@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<BudgetMaster.Models.Budget>
+@*@model IEnumerable<BudgetMaster.Models.ViewModels.AllBudgetsViewModel>*@
 
 
 @{
@@ -28,6 +29,10 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedMonth) / @Html.DisplayFor(modelItem => item.CreatedYear)
+                </td>
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.ProjectedExpenses);
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.BudgetId">Details</a> |

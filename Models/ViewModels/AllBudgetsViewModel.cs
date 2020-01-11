@@ -16,6 +16,9 @@ namespace BudgetMaster.Models.ViewModels
 
         public Budget Budget { get; set; }
         public int BudgetId { get; set; }
+        public ApplicationUser User { get; set; }
+        public int CreatedMonth { get; set; }
+        public int CreatedYear { get; set; }
 
     }
 }
