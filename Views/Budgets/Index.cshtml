@@ -32,7 +32,8 @@
                 </td>
                 <td>
 
-                    @Html.DisplayFor(modelItem => item.ProjectedExpenses);
+                    @*@Html.DisplayFor(modelItem => item.ProjectedExpenses.Sum(x => x.Amount));*@
+                    @*@String.Format("0:c", item.ProjectedExpenses.Sum(x => x.Amount))*@
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.BudgetId">Details</a> |
